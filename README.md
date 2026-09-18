@@ -1,0 +1,2 @@
+# LivlyGardener
+BlueStacksのリヴリーアイランドで水やり・木の実回収を自動化するWindowsアプリ
