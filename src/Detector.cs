@@ -13,7 +13,9 @@ class Detector {
     public Detector(string path) {
         Add(path,"shortage",new Rectangle(236,83,216,50));
         Add(path,"shortage-small",new Rectangle(236,83,216,50));
+        Add(path,"shortage-rendered",new Rectangle(236,83,216,50));
         Add(path,"return",new Rectangle(28,906,82,68));
+        Add(path,"return-icon",new Rectangle(28,880,83,52));
         Add(path,"harvest",new Rectangle(278,245,110,65));
         Add(path,"elixir",new Rectangle(278,245,110,65));
         Add(path,"done",new Rectangle(278,245,110,65));
@@ -50,7 +52,7 @@ class Detector {
         using(var b=new Bitmap(Path.Combine(path,name+".png"))) {
             var v=Pixels(b);var edge=Vision.Edges(v,b.Width,b.Height);double em=edge.Average();for(int i=0;i<edge.Length;i++)edge[i]-=em;
             var t=new Template{Name=name,Values=v,W=b.Width,H=b.Height,Area=area,Edge=edge,EdgeNorm=Math.Sqrt(edge.Sum(x=>x*x))};
-            if(name.StartsWith("friend") || name=="return")for(int y=0;y<b.Height;y++)for(int x=0;x<b.Width;x++){var c=b.GetPixel(x,y);if(c.R>140&&c.R-c.B>45&&c.G-c.B>20){t.Gold.Add(new Point(x,y));t.GoldMean+=v[y*b.Width+x];}}
+            if(name.StartsWith("friend") || name.StartsWith("return"))for(int y=0;y<b.Height;y++)for(int x=0;x<b.Width;x++){var c=b.GetPixel(x,y);if(c.R>140&&c.R-c.B>45&&c.G-c.B>20){t.Gold.Add(new Point(x,y));t.GoldMean+=v[y*b.Width+x];}}
             if(t.Gold.Count>0)t.GoldMean/=t.Gold.Count;
             double mean=v.Average(); for(int i=0;i<v.Length;i++)v[i]-=mean;t.Norm=Math.Sqrt(v.Sum(x=>x*x));templates.Add(t);
         }
@@ -61,7 +63,7 @@ class Detector {
     public Dictionary<string,Match> Read(Bitmap frame,string only=null) {
         var p=Pixels(frame);var edges=only==null?Vision.Edges(p,frame.Width,frame.Height):null; var result=new Dictionary<string,Match>();var white=only==null?WhiteStrokes(frame):null;
         foreach(var t in templates) {
-            if(only!=null && t.Name!=only && !(only=="shortage" && t.Name=="shortage-small"))continue;
+            if(only!=null && t.Name!=only && !(only=="shortage" && t.Name.StartsWith("shortage-")))continue;
             var pixels=t.Name.EndsWith("-shape")?white:p;
             bool useEdges=t.Name=="harvest"||t.Name=="elixir"||t.Name=="done"||t.Name=="fruit-icon";
             var best=new Match{Name=t.Name,Score=-1}; int count=t.W*t.H;
@@ -83,7 +85,9 @@ class Detector {
             result[t.Name]=best;
         }
         if(result.ContainsKey("shortage-small") && result["shortage-small"].Score>result["shortage"].Score)result["shortage"]=result["shortage-small"];
+        if(result.ContainsKey("shortage-rendered") && result["shortage-rendered"].Score>result["shortage"].Score)result["shortage"]=result["shortage-rendered"];
         if(only!=null)return result;
+        if(result["return-icon"].Enabled && (!result["return"].Enabled || result["return-icon"].Score>result["return"].Score))result["return"]=result["return-icon"];
         if(result["home-clean"].Score>result["home"].Score)result["home"]=result["home-clean"];
         result["friend"]=new[]{result["friend"],result["friend2"],result["friend3"],result["friend4"],result["friend-icon"]}.OrderByDescending(m=>m.Enabled?m.Score:0).First();
         return result;

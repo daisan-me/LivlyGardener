@@ -165,7 +165,7 @@ partial class FormApp:Form {
                 var matches=Recognize(frame,ct,false);string state=Detector.State(matches);
                 if(state=="訪問先・操作なし" && pending=="" && unclear.ElapsedMilliseconds>=2500){matches=Recognize(frame,ct);state=Detector.State(matches);}
                 Ui(()=>activity.Text=state=="harvest"?"木の実の収穫を確認しています。":state=="elixir"?"水やりを確認しています。":"現在の画面："+state);
-                Log("画面: "+state+" / "+string.Join(" ",matches.Where(x=>new[]{"home","menu","harvest","elixir","fruit-shape","water-shape","done","friend","success"}.Contains(x.Key)).Select(x=>x.Key+"="+x.Value.Score.ToString("F2"))));
+                Log("画面: "+state+" / "+string.Join(" ",matches.Where(x=>new[]{"shortage","home","menu","harvest","elixir","fruit-shape","water-shape","done","friend","success"}.Contains(x.Key)).Select(x=>x.Key+"="+x.Value.Score.ToString("F2"))));
                 if(!automate)return;
                 if(state==lastState)stable++;else{lastState=state;stable=1;}
                 if(stable<2 && state!="harvest" && state!="elixir"){Wait(ct,150);continue;}

@@ -7,7 +7,7 @@ class Setup {
     [STAThread] static void Main() {
         Application.EnableVisualStyles();
         string target=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"Programs","LivlyGardener");
-        if(MessageBox.Show("Livly Gardener 0.8をインストールします。\n\n保存先: "+target+"\n\nBlueStacksは別途必要です。続行しますか？","Livly Gardener Setup",MessageBoxButtons.OKCancel)!=DialogResult.OK)return;
+        if(MessageBox.Show("Livly Gardener 0.8.1をインストールします。\n\n保存先: "+target+"\n\nBlueStacksは別途必要です。続行しますか？","Livly Gardener Setup",MessageBoxButtons.OKCancel)!=DialogResult.OK)return;
         try {
             Directory.CreateDirectory(target);
             using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("package.zip"))using(var zip=new ZipArchive(stream,ZipArchiveMode.Read)) {

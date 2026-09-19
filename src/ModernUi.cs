@@ -40,7 +40,7 @@ partial class FormApp {
     static Label TextLabel(string text,float size,Color color,bool bold=false){return new Label{Text=text,AutoSize=false,Font=new Font("Yu Gothic UI",size,bold?FontStyle.Bold:FontStyle.Regular),ForeColor=color,BackColor=Color.Transparent,TextAlign=ContentAlignment.MiddleLeft,Dock=DockStyle.Fill};}
     static TableLayoutPanel Grid(int rows){var p=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=1,RowCount=rows,BackColor=Color.Transparent,Margin=Padding.Empty,Padding=Padding.Empty};return p;}
     void BuildUi() {
-        Text="Livly Gardener 0.8";ClientSize=new Size(820,620);MinimumSize=new Size(780,630);
+        Text="Livly Gardener 0.8.1";ClientSize=new Size(820,620);MinimumSize=new Size(780,630);
         Icon=new Icon(System.IO.Path.Combine(root,"assets","app.ico"));FormClosed+=(s,e)=>Icon.Dispose();StartPosition=FormStartPosition.CenterScreen;
         Font=new Font("Yu Gothic UI",10);ForeColor=Palette.Ink;BackColor=Palette.Canvas;AutoScaleMode=AutoScaleMode.Dpi;DoubleBuffered=true;
         var shell=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=2,RowCount=1,Margin=Padding.Empty};shell.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,138));shell.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));Controls.Add(shell);
@@ -49,7 +49,7 @@ partial class FormApp {
         var brand=TextLabel("Livly\nGardener",14,Palette.Ink,true);brand.Dock=DockStyle.None;brand.SetBounds(16,68,118,58);rail.Controls.Add(brand);
         var section=TextLabel("AUTOMATION",8,Palette.Muted,true);section.Dock=DockStyle.None;section.SetBounds(16,150,118,24);rail.Controls.Add(section);
         homeNav=new ModernButton{Text="全自動HPwr消費",Selected=true,Location=new Point(8,180),Size=new Size(122,44)};settingsNav=new ModernButton{Text="接続・設定",Location=new Point(8,232),Size=new Size(122,40)};rail.Controls.Add(homeNav);rail.Controls.Add(settingsNav);
-        var railFoot=TextLabel("DESKTOP EDITION\nv0.8  /  試作版",8,Palette.Muted);railFoot.Dock=DockStyle.Bottom;railFoot.Height=48;rail.Controls.Add(railFoot);
+        var railFoot=TextLabel("DESKTOP EDITION\nv0.8.1",8,Palette.Muted);railFoot.Dock=DockStyle.Bottom;railFoot.Height=48;rail.Controls.Add(railFoot);
         var content=Grid(4);content.Padding=new Padding(14,10,14,8);content.RowStyles.Add(new RowStyle(SizeType.Absolute,54));content.RowStyles.Add(new RowStyle(SizeType.Absolute,72));content.RowStyles.Add(new RowStyle(SizeType.Percent,100));content.RowStyles.Add(new RowStyle(SizeType.Absolute,24));shell.Controls.Add(content,1,0);
         var header=new TableLayoutPanel{Dock=DockStyle.Fill,ColumnCount=2,Margin=Padding.Empty};header.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));header.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,108));
         header.RowCount=1;header.RowStyles.Add(new RowStyle(SizeType.Percent,100));header.Controls.Add(TextLabel("島のお世話を、手軽に。",17,Palette.Ink,true),0,0);
