@@ -59,6 +59,19 @@ class DetectorTests {
         }
         using(var white=new Bitmap(552,984)) {using(var g=Graphics.FromImage(white)){g.Clear(Color.White);g.DrawString("Hom Power 403/403",new Font("Arial",13),Brushes.Black,249,98);}if(d.HasShortage(white))failures++;}
         if(args.Length>0 && File.Exists(Path.Combine(args[0],"shortage.png")))using(var b=new Bitmap(Path.Combine(args[0],"shortage.png"))){var m=d.Read(b);Console.WriteLine("Shortage fixture: "+Detector.State(m)+" / return="+m["return"].Score.ToString("F3")+" enabled="+m["return"].Enabled);if(!d.HasShortage(b)||m["return"].Score<.85||!m["return"].Enabled)failures++;}
+        // Actual BlueStacks notification differs from the original reference font rasterization.
+        if(args.Length>0 && File.Exists(Path.Combine(args[0],"shortage-live.png")))using(var raw=new Bitmap(Path.Combine(args[0],"shortage-live.png"))) {
+            foreach(var size in new[]{new Size(360,640),raw.Size,new Size(1080,1920)})using(var scaled=new Bitmap(raw,size))using(var b=Detector.Normalize(scaled)) {
+                var m=d.Read(b);var back=m["return"];
+                Console.WriteLine("Live shortage "+size+" -> "+Detector.State(m)+" return="+back.Score.ToString("F3")+" at "+back.Point);
+                if(!d.HasShortage(b)||Detector.State(m)!="HPwr不足"||back.Score<.85||!back.Enabled||back.Point.X>=110||back.Point.Y<880)failures++;
+            }
+            using(var b=Detector.Normalize(raw)) {
+                var m=d.Read(b);int steps=0,backTaps=0;
+                bool returned=HomeReturn.Execute(()=>++steps==1?new ReturnObservation{CanReturn=m["return"].Enabled&&m["return"].Score>=.85,Button=m["return"].Point}:new ReturnObservation{Home=true},p=>{backTaps++;if(p.X>=110)failures++;},()=>{},CancellationToken.None);
+                if(!returned||backTaps!=1)failures++;
+            }
+        }
         int polls=0;var clock=Stopwatch.StartNew();bool latched=ActionWait.Observe(1000,CancellationToken.None,()=>++polls==2);
         if(!latched || polls!=2 || clock.ElapsedMilliseconds<1000)failures++;
         using(var cancellation=new CancellationTokenSource()){cancellation.CancelAfter(100);clock.Restart();try{ActionWait.Observe(5000,cancellation.Token,()=>false);failures++;}catch(OperationCanceledException){}if(clock.ElapsedMilliseconds>1000)failures++;}
