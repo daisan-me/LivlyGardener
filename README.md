@@ -6,24 +6,24 @@
 
 ## ダウンロード
 
-[インストーラーをダウンロード](https://github.com/daisan-me/LivlyGardener/releases/latest/download/LivlyGardener-Setup.exe)
+[正式版をダウンロード](https://github.com/daisan-me/LivlyGardener/releases/latest/download/LivlyGardener.zip)
 
-Chromeがインストーラーを保留・削除する場合は、[ポータブル版（ZIP）をダウンロード](https://github.com/daisan-me/LivlyGardener/releases/latest/download/LivlyGardener-portable.zip)してください。ZIPを展開し、LivlyGardener.exeを起動します。どちらも公式リリースの同じ完成版です。
+ZIPを展開し、LivlyGardener.exeを起動します。Python・開発ツールは不要です。BlueStacks 5とゲームは別途必要です。
 
 ## ダウンロード警告が出る場合
 
-ChromeのSafe BrowsingとWindowsセキュリティは無効にせず、まず公式リリースのファイルか確認してください。Safe Browsingを無効にしていると、Chromeはファイルを未確認として扱います。
+ChromeのSafe BrowsingとWindowsセキュリティを無効にせず、まず公式リリースのファイルか確認してください。Safe Browsingを無効にしていると、Chromeはファイルを未確認として扱います。
 
-PowerShellでインストーラーのSHA256を確認できます。ダウンロード先を指定してGet-FileHashを実行し、次の値と一致するか確認してください。
+PowerShellで正式版ZIPのSHA256を確認できます。次の値と一致しない場合は実行せず、公式リリースから再取得してください。
 
-33d0796000e93f23dde525bc6d5871e2f21fe5c050562ac8f109bdc0b9f2c087
+12957e6529cf6a36715505338f9ad0253fabaf2fbf0a72408c66c9938ae83626
 
-値が一致しない場合は実行せず、公式リリースから再取得してください。Windowsセキュリティの保護の履歴に具体的なマルウェア名がある場合は実行せず、Microsoftへ誤検知として報告してください。
+Windowsセキュリティの保護の履歴に具体的なマルウェア名がある場合は実行せず、Microsoftへ誤検知として報告してください。
 
 ## 使い方
 
-1. BlueStacksの「設定 → 詳細設定 → Android Debug Bridge」を有効にします。
-2. Setupを実行します。旧版は先に閉じてください。完了後アプリが起動し、デスクトップとスタートメニューにショートカットが作られます。
+1. BlueStacksの「設定 → 上位設定 → Android Debug Bridge」を有効にします。
+2. ZIPを展開し、LivlyGardener.exeを起動します。
 3. ゲームを縦向きのホーム画面にして「接続を確認」→「開始」を押します。
 4. 停止は停止ボタンまたはF8です。
 
@@ -47,6 +47,6 @@ Windows 10/11 x64、.NET Framework 4.5以降、Windows PowerShell 5.1、BlueStac
 
 ## 更新・削除
 
-更新はアプリを閉じて新しいSetupを実行します。インストール先は%LOCALAPPDATA%/Programs/LivlyGardener、設定・ログ・認識用の一時画像は%LOCALAPPDATA%/LivlyGardenerPrototypeです。
+更新はアプリを閉じて新しいZIPを展開します。設定・ログ・認識用の一時画像は%LOCALAPPDATA%/LivlyGardenerPrototypeです。ログや画像を外部送信しません。コード署名・自動更新はありません。
 
-ログや画像を外部送信しません。コード署名・自動更新はありません。本アプリは非公式です。リヴリーアイランド・BlueStacksの運営とは関係ありません。
+本アプリは非公式です。リヴリーアイランド・BlueStacksの運営とは関係ありません。
